@@ -1,3 +1,5 @@
+import UserProfile from './components/UserProfile';
+
 import Header from './components/Header';
 
 import MainContent from './components/MainContent';
@@ -21,6 +23,9 @@ function App() {
       <Header />
       <MainContent />
       <Footer />
+    </div>
+    <div>
+      <UserProfile name="Alice" age="25" bio="Loves hiking and photography" />
     </div>
       <div>
         <a href="https://vite.dev" target="_blank">
