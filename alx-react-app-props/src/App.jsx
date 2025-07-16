@@ -1,8 +1,10 @@
-import React from 'react';
-
-import ProfilePage from './ProfilePage';
-
 import UserContext from './UserContext';
+
+<UserContext.Provider value={userData}>
+  
+  <ProfilePage />
+  
+</UserContext.Provider>
 
 import UserProfile from './components/UserProfile';
 
