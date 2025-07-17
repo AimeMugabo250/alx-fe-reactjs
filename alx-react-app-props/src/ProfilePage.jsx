@@ -1,4 +1,4 @@
-import React from 'react';
+// src/ProfilePage.jsx
 import UserInfo from './UserInfo';
 
 function ProfilePage() {
