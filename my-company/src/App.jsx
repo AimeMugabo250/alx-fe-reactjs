@@ -1,11 +1,13 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import About from './pages/About';
-import Services from './pages/Services';
-import Contact from './pages/Contact';
 
-function App() {
+const Home = () => <h1>Home Page</h1>;
+const About = () => <h1>About Page</h1>;
+const Services = () => <h1>Services Page</h1>;
+const Contact = () => <h1>Contact Page</h1>;
+
+const App = () => {
   return (
     <Router>
       <Navbar />
@@ -17,6 +19,6 @@ function App() {
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;
