@@ -1,12 +1,29 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 const Navbar = () => {
-    return (
-        <nav style={{ display: 'flex', justifyContent: 'space-around', padding: '1rem', backgroundColor: '#282c34' }}>
-            <a href="/" style={{ color: 'white', textDecoration: 'none' }}>Home</a>
-            <a href="/about" style={{ color: 'white', textDecoration: 'none' }}>About</a>
-            <a href="/services" style={{ color: 'white', textDecoration: 'none' }}>Services</a>
-            <a href="/contact" style={{ color: 'white', textDecoration: 'none' }}>Contact</a>
-        </nav>
-    );
+  const navStyle = {
+    display: 'flex',
+    justifyContent: 'space-around',
+    padding: '10px',
+    backgroundColor: '#333',
+    color: 'white',
+  };
+
+  const linkStyle = {
+    color: 'white',
+    textDecoration: 'none',
+    fontSize: '18px',
+  };
+
+  return (
+    <nav style={navStyle}>
+      <Link to="/" style={linkStyle}>Home</Link>
+      <Link to="/about" style={linkStyle}>About</Link>
+      <Link to="/services" style={linkStyle}>Services</Link>
+      <Link to="/contact" style={linkStyle}>Contact</Link>
+    </nav>
+  );
 };
 
 export default Navbar;
