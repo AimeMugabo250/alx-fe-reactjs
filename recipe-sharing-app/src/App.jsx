@@ -1,32 +1,31 @@
-﻿import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
-import About from './components/About';
+﻿import React, { useEffect } from 'react';
+import { useRecipeStore } from '../recipeStore';
+import { Link } from 'react-router-dom'; // ✅ import Link
 
-function App() {
+const RecipeList = () => {
+  const filteredRecipes = useRecipeStore(state => state.filteredRecipes);
+  const initializeFilteredRecipes = useRecipeStore(state => state.initializeFilteredRecipes);
+
+  useEffect(() => {
+    initializeFilteredRecipes();
+  }, [initializeFilteredRecipes]);
+
+  if (!filteredRecipes.length) {
+    return <p>No recipes found.</p>;
+  }
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </BrowserRouter>
+    <ul>
+      {filteredRecipes.map(recipe => (
+        <li key={recipe.id}>
+          {/* ✅ Link to individual recipe details */}
+          <Link to={`/recipes/${recipe.id}`} style={{ textDecoration: 'none', color: 'blue' }}>
+            {recipe.title}
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
-}
+};
 
-
-import React from 'react';
-import SearchBar from './components/SearchBar';
-import RecipeList from './components/RecipeList';
-
-function App() {
-  return (
-    <div style={{ maxWidth: '600px', margin: 'auto', padding: '1rem' }}>
-      <h1>Recipe Sharing App</h1>
-      <SearchBar />
-      <RecipeList />
-    </div>
-  );
-}
-
-export default App;
+export default RecipeList;
