@@ -1,25 +1,19 @@
-﻿import React, { useEffect } from 'react';
-import { useRecipeStore } from '../recipeStore';
+﻿import { useRecipeStore } from '../store/recipeStore';
 
 const RecipeList = () => {
-  const filteredRecipes = useRecipeStore(state => state.filteredRecipes);
-  const initializeFilteredRecipes = useRecipeStore(state => state.initializeFilteredRecipes);
-
-  // initialize filteredRecipes on mount
-  useEffect(() => {
-    initializeFilteredRecipes();
-  }, [initializeFilteredRecipes]);
-
-  if (!filteredRecipes.length) {
-    return <p>No recipes found.</p>;
-  }
+  const recipes = useRecipeStore((state) => state.recipes);
 
   return (
-    <ul>
-      {filteredRecipes.map(recipe => (
-        <li key={recipe.id}>{recipe.title}</li>
+    <div>
+      <h2>Recipe List</h2>
+      {recipes.length === 0 && <p>No recipes added yet.</p>}
+      {recipes.map((recipe) => (
+        <div key={recipe.id} style={{ border: '1px solid #ccc', marginBottom: '12px', padding: '10px' }}>
+          <h3>{recipe.title}</h3>
+          <p>{recipe.description}</p>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 };
 
