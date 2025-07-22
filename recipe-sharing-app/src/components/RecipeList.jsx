@@ -1,11 +1,11 @@
 ﻿import React, { useEffect } from 'react';
 import { useRecipeStore } from '../recipeStore';
+import { Link } from 'react-router-dom'; // ✅ import Link
 
 const RecipeList = () => {
   const filteredRecipes = useRecipeStore(state => state.filteredRecipes);
   const initializeFilteredRecipes = useRecipeStore(state => state.initializeFilteredRecipes);
 
-  // initialize filteredRecipes on mount
   useEffect(() => {
     initializeFilteredRecipes();
   }, [initializeFilteredRecipes]);
@@ -17,7 +17,12 @@ const RecipeList = () => {
   return (
     <ul>
       {filteredRecipes.map(recipe => (
-        <li key={recipe.id}>{recipe.title}</li>
+        <li key={recipe.id}>
+          {/* ✅ Link to individual recipe details */}
+          <Link to={`/recipes/${recipe.id}`} style={{ textDecoration: 'none', color: 'blue' }}>
+            {recipe.title}
+          </Link>
+        </li>
       ))}
     </ul>
   );
