@@ -1,31 +1,25 @@
-﻿import React, { useEffect } from 'react';
-import { useRecipeStore } from '../recipeStore';
-import { Link } from 'react-router-dom'; // ✅ import Link
+﻿import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import RecipeList from './components/RecipeList';
+import AddRecipeForm from './components/AddRecipeForm';
+import RecipeDetails from './components/RecipeDetails';
+import SearchBar from './components/SearchBar';
 
-const RecipeList = () => {
-  const filteredRecipes = useRecipeStore(state => state.filteredRecipes);
-  const initializeFilteredRecipes = useRecipeStore(state => state.initializeFilteredRecipes);
-
-  useEffect(() => {
-    initializeFilteredRecipes();
-  }, [initializeFilteredRecipes]);
-
-  if (!filteredRecipes.length) {
-    return <p>No recipes found.</p>;
-  }
-
+function App() {
   return (
-    <ul>
-      {filteredRecipes.map(recipe => (
-        <li key={recipe.id}>
-          {/* ✅ Link to individual recipe details */}
-          <Link to={`/recipes/${recipe.id}`} style={{ textDecoration: 'none', color: 'blue' }}>
-            {recipe.title}
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <BrowserRouter>
+      <div style={{ padding: '2rem' }}>
+        <h1>🍽️ Recipe Sharing App</h1>
+        <SearchBar />
+        
+        <Routes>
+          <Route path="/" element={<RecipeList />} />
+          <Route path="/add" element={<AddRecipeForm />} />
+          <Route path="/recipes/:id" element={<RecipeDetails />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
-};
+}
 
-export default RecipeList;
+export default App;
