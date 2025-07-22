@@ -1,37 +1,36 @@
-import { useState } from 'react';
-import { useRecipeStore } from '../store/recipeStore';
+import React, { useState } from 'react';
+import { useRecipeStore } from './recipeStore';
 
 const EditRecipeForm = ({ recipe, onClose }) => {
-  const updateRecipe = useRecipeStore((state) => state.updateRecipe);
+  const updateRecipe = useRecipeStore(state => state.updateRecipe);
   const [title, setTitle] = useState(recipe.title);
   const [description, setDescription] = useState(recipe.description);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!title.trim() || !description.trim()) return;
+  const handleSubmit = (event) => {
+    event.preventDefault();  // <-- This line prevents page reload
 
-    updateRecipe({ ...recipe, title, description });
-    onClose();
+    updateRecipe({
+      ...recipe,
+      title,
+      description,
+    });
+
+    onClose();  // Close form or navigate away
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Edit Recipe</h2>
       <input
-        type="text"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        style={{ display: 'block', margin: '10px 0', padding: '8px', width: '100%' }}
+        onChange={e => setTitle(e.target.value)}
+        placeholder="Title"
       />
       <textarea
         value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        style={{ display: 'block', margin: '10px 0', padding: '8px', width: '100%' }}
+        onChange={e => setDescription(e.target.value)}
+        placeholder="Description"
       />
       <button type="submit">Save</button>
-      <button type="button" onClick={onClose} style={{ marginLeft: '10px' }}>
-        Cancel
-      </button>
     </form>
   );
 };
