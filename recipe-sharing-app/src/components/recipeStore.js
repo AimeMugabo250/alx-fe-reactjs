@@ -1,34 +1,43 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
-export const useRecipeStore = create((set, get) => ({
-  recipes: [],           // your original recipes array
-  searchTerm: '',        // new search term
-  filteredRecipes: [],   // filtered results based on search
+export const useRecipeStore = create((set) => ({
+  recipes: [],
+  favorites: [],
+  recommendations: [],
 
-  // action to set recipes (if needed)
-  setRecipes: (recipes) => set({ recipes }),
+  addRecipe: (recipe) =>
+    set((state) => ({
+      recipes: [...state.recipes, recipe],
+    })),
 
-  // update search term and automatically filter recipes
-  setSearchTerm: (term) => {
-    set({ searchTerm: term });
-    get().filterRecipes(term);
-  },
+  updateRecipe: (updatedRecipe) =>
+    set((state) => ({
+      recipes: state.recipes.map((r) =>
+        r.id === updatedRecipe.id ? updatedRecipe : r
+      ),
+    })),
 
-  // filter recipes based on search term (you can extend filters here)
-  filterRecipes: (term) => {
-    const search = term.toLowerCase();
-    set(state => ({
-      filteredRecipes: state.recipes.filter(recipe => 
-        recipe.title.toLowerCase().includes(search)
-        // add other criteria here if you want (ingredients, time, etc.)
-      )
-    }));
-  },
+  deleteRecipe: (recipeId) =>
+    set((state) => ({
+      recipes: state.recipes.filter((r) => r.id !== recipeId),
+    })),
 
-  // initialize filteredRecipes to all recipes when loaded
-  initializeFilteredRecipes: () => {
-    set(state => ({
-      filteredRecipes: state.recipes
-    }));
-  }
+  addFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: [...state.favorites, recipeId],
+    })),
+
+  removeFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.filter((id) => id !== recipeId),
+    })),
+
+  generateRecommendations: () =>
+    set((state) => {
+      const recommended = state.recipes.filter(
+        (recipe) =>
+          state.favorites.includes(recipe.id) && Math.random() > 0.5
+      );
+      return { recommendations: recommended };
+    }),
 }));
