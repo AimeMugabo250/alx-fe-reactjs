@@ -14,7 +14,7 @@ function App() {
   );
 }
 
-export default App;
+
 import React from 'react';
 import SearchBar from './components/SearchBar';
 import RecipeList from './components/RecipeList';
