@@ -1,4 +1,6 @@
 ﻿import { create } from 'zustand';
+import { useRecipeStore } from '../store/recipeStore';
+
 
 export const useRecipeStore = create((set) => ({
   recipes: [],
