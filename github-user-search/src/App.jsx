@@ -39,4 +39,19 @@ function App() {
   );
 }
 
+
+import Search from './components/Search/Search';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+
+const theme = createTheme();
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Search />
+    </ThemeProvider>
+  );
+}
+
 export default App;
