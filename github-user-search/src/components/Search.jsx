@@ -56,19 +56,34 @@ const handleSubmit = async (e) => {
         </p>
       )}
 
-      {user && (
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          <img
-            src={user.avatar_url}
-            alt="avatar"
-            style={{ width: '100px', borderRadius: '50%' }}
-          />
-          <h3>{user.login}</h3>
-          <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-            View GitHub Profile
-          </a>
-        </div>
-      )}
+      {user && Array.isArray(user) ? (
+  user.map((u) => (
+    <div key={u.id} style={{ marginTop: '20px', textAlign: 'center' }}>
+      <img
+        src={u.avatar_url}
+        alt="avatar"
+        style={{ width: '100px', borderRadius: '50%' }}
+      />
+      <h3>{u.login}</h3>
+      <a href={u.html_url} target="_blank" rel="noopener noreferrer">
+        View GitHub Profile
+      </a>
+    </div>
+  ))
+) : user ? (
+  <div style={{ marginTop: '20px', textAlign: 'center' }}>
+    <img
+      src={user.avatar_url}
+      alt="avatar"
+      style={{ width: '100px', borderRadius: '50%' }}
+    />
+    <h3>{user.login}</h3>
+    <a href={user.html_url} target="_blank" rel="noopener noreferrer">
+      View GitHub Profile
+    </a>
+  </div>
+) : null}
+
     </div>
   );
 };
