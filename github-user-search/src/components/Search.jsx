@@ -4,18 +4,24 @@ const Search = ({ onSearch, user, isLoading }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
+  // ✅ Add this function above handleSubmit
+const fetchUserData = async (username) => {
+  try {
+    await onSearch(username);
+  } catch (err) {
+    setError("Looks like we cant find the user");
+  }
+};
 
-    if (searchTerm.trim()) {
-      try {
-        await onSearch(searchTerm);
-      } catch (err) {
-        setError("Looks like we cant find the user");
-      }
-    }
-  };
+// ✅ Then update handleSubmit to call fetchUserData
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError(null);
+
+  if (searchTerm.trim()) {
+    await fetchUserData(searchTerm);
+  }
+};
 
   return (
     <div style={{ maxWidth: '500px', margin: '20px auto' }}>
