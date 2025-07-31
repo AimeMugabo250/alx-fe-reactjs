@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
-const Search = ({ onSearch }) => {
+const Search = ({ onSearch, user, isLoading }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null); // Reset error on new search
-    
+    setError(null);
+
     if (searchTerm.trim()) {
       try {
         await onSearch(searchTerm);
@@ -27,7 +27,7 @@ const Search = ({ onSearch }) => {
           placeholder="Enter GitHub username"
           style={{ flex: 1, padding: '8px' }}
         />
-        <button 
+        <button
           type="submit"
           style={{
             padding: '8px 16px',
@@ -41,16 +41,30 @@ const Search = ({ onSearch }) => {
           Search
         </button>
       </form>
-      
+
+      {isLoading && <p>Loading...</p>}
+
       {error && (
         <p style={{ color: 'red', marginTop: '10px' }}>
           {error}
         </p>
+      )}
+
+      {user && (
+        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          <img
+            src={user.avatar_url}
+            alt="avatar"
+            style={{ width: '100px', borderRadius: '50%' }}
+          />
+          <h3>{user.login}</h3>
+          <a href={user.html_url} target="_blank" rel="noopener noreferrer">
+            View GitHub Profile
+          </a>
+        </div>
       )}
     </div>
   );
 };
 
 export default Search;
-
-
