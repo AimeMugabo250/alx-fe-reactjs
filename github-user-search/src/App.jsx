@@ -76,4 +76,42 @@ const handleSearch = async (username) => {
 <Search onSearch={handleSearch} user={user} isLoading={isLoading} />
 
 
+
+import { useState } from 'react';
+import Search from './components/Search';
+import UserList from './components/UserList';
+import { fetchUsersByAdvancedSearch } from './services/githubService';
+
+const App = () => {
+  const [users, setUsers] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleAdvancedSearch = async (searchParams) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const results = await fetchUsersByAdvancedSearch(searchParams);
+      setUsers(results);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-6">
+      <h1 className="text-2xl font-bold text-center mb-6">GitHub User Search</h1>
+      <Search onAdvancedSearch={handleAdvancedSearch} />
+      
+      {loading && <p className="text-center mt-4">Loading...</p>}
+      {error && <p className="text-center text-red-500 mt-4">{error}</p>}
+
+      <UserList users={users} />
+    </div>
+  );
+};
+
 export default App;
+
