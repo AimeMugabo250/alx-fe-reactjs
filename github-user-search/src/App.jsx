@@ -54,4 +54,26 @@ function App() {
   );
 }
 
+const [user, setUser] = useState(null);
+const [isLoading, setIsLoading] = useState(false);
+
+const handleSearch = async (username) => {
+  setIsLoading(true);
+  try {
+    const res = await fetch(`https://api.github.com/users/${username}`);
+    if (!res.ok) throw new Error('User not found');
+    const data = await res.json();
+    setUser(data);
+  } catch (err) {
+    setUser(null);
+    throw err;
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+// Then render Search component like:
+<Search onSearch={handleSearch} user={user} isLoading={isLoading} />
+
+
 export default App;
