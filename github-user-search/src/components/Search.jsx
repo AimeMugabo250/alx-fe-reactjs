@@ -73,4 +73,56 @@ const handleSubmit = async (e) => {
   );
 };
 
+
+
+
+
+import { useState } from 'react';
+
+const Search = ({ onAdvancedSearch }) => {
+  const [username, setUsername] = useState('');
+  const [location, setLocation] = useState('');
+  const [minRepos, setMinRepos] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onAdvancedSearch({ username, location, minRepos });
+  };
+
+  return (
+    <div className="max-w-xl mx-auto p-4 bg-white rounded-xl shadow-md">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          className="w-full border border-gray-300 rounded px-3 py-2"
+          type="text"
+          placeholder="GitHub Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          className="w-full border border-gray-300 rounded px-3 py-2"
+          type="text"
+          placeholder="Location (optional)"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
+        <input
+          className="w-full border border-gray-300 rounded px-3 py-2"
+          type="number"
+          placeholder="Minimum Repositories (optional)"
+          value={minRepos}
+          onChange={(e) => setMinRepos(e.target.value)}
+        />
+        <button
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          type="submit"
+        >
+          Search
+        </button>
+      </form>
+    </div>
+  );
+};
+
 export default Search;
+
