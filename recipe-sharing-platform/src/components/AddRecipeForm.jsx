@@ -6,28 +6,23 @@ function AddRecipeForm() {
   const [instructions, setInstructions] = useState("");
   const [errors, setErrors] = useState({});
 
-
-  const [title, setTitle] = useState("");            // Recipe title
-  const [ingredients, setIngredients] = useState(""); // Ingredients textarea
-  const [instructions, setInstructions] = useState(""); // Steps textarea
-  const [errors, setErrors] = useState({});          // Validation errors
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // Standalone validation function as required
+  function validate({ title, ingredients, instructions }) {
     let validationErrors = {};
-
-    // Simple validation
     if (!title.trim()) validationErrors.title = "Title is required";
     if (!ingredients.trim() || ingredients.split("\n").length < 2)
       validationErrors.ingredients = "Enter at least 2 ingredients";
     if (!instructions.trim() || instructions.split("\n").length < 2)
       validationErrors.instructions = "Enter at least 2 steps";
+    return validationErrors;
+  }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validate({ title, ingredients, instructions });
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      // For now, just log the recipe
       const newRecipe = {
         title,
         ingredients: ingredients.split("\n"),
@@ -35,7 +30,6 @@ function AddRecipeForm() {
       };
       console.log("New Recipe Submitted:", newRecipe);
 
-      // Clear form
       setTitle("");
       setIngredients("");
       setInstructions("");
@@ -92,64 +86,6 @@ function AddRecipeForm() {
         </button>
       </form>
     </div>
-
-    const handleSubmit = (e) => {
-  e.preventDefault(); // Prevent page reload
-
-  let validationErrors = {};
-
-  // Check if title is empty
-  if (!title.trim()) validationErrors.title = "Title is required";
-
-  // Check ingredients has at least 2 lines
-  if (!ingredients.trim() || ingredients.split("\n").length < 2)
-    validationErrors.ingredients = "Enter at least 2 ingredients";
-
-  // Check instructions has at least 2 steps
-  if (!instructions.trim() || instructions.split("\n").length < 2)
-    validationErrors.instructions = "Enter at least 2 steps";
-
-  setErrors(validationErrors); // Update state with errors
-
-  // Only proceed if no errors
-  if (Object.keys(validationErrors).length === 0) {
-    // Your form submission logic here
-    console.log({
-      title,
-      ingredients: ingredients.split("\n"),
-      instructions: instructions.split("\n"),
-    });
-    alert("Recipe submitted successfully!");
-    
-    // Clear the form
-    setTitle("");
-    setIngredients("");
-    setInstructions("");
-  }
-};
-
-
-<input
-  type="text"
-  value={title}
-  onChange={(e) => setTitle(e.target.value)}
-/>
-
-<textarea
-  value={ingredients}
-  onChange={(e) => setIngredients(e.target.value)}
-/>
-
-<textarea
-  value={instructions}
-  onChange={(e) => setInstructions(e.target.value)}
-/>
-
-
-{errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
-{errors.ingredients && <p className="text-red-500 text-sm">{errors.ingredients}</p>}
-{errors.instructions && <p className="text-red-500 text-sm">{errors.instructions}</p>}
-
   );
 }
 
