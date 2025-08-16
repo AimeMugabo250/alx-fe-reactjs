@@ -10,6 +10,15 @@ import { Link } from "react-router-dom";
   View Recipe
 </Link>
 
+import { Link } from "react-router-dom";
+
+<Link
+  to="/add-recipe"
+  className="inline-block mb-6 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+>
+  ➕ Add New Recipe
+</Link>
+
 function HomePage() {
   const [recipes, setRecipes] = useState([]);
 
@@ -52,4 +61,5 @@ function HomePage() {
 }
 
 export default HomePage;
+
 
