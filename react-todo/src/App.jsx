@@ -1,4 +1,5 @@
-import TodoList from "./components/TodoList";
+import TodoList from "../components/TodoList";
+
 
 function App() {
   return (
@@ -9,3 +10,4 @@ function App() {
 }
 
 export default App;
+
