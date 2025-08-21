@@ -21,6 +21,9 @@ export default function PostsComponent() {
     queryKey: ["posts"], // unique cache key
     queryFn: fetchPosts,
     staleTime: 1000 * 60, // 1 min caching
+    cacheTime: 1000 * 60 * 10, // cache data for 10 minutes after unused
+    refetchOnWindowFocus: false, // do not refetch on window focus
+    keepPreviousData: true, // keep previous data while fetching new
   });
 
   if (isLoading) return <p>Loading posts...</p>;
