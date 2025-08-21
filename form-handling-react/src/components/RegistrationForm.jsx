@@ -4,15 +4,21 @@ export default function RegistrationForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!username || !email || !password) {
-      setError("All fields are required!");
+    const newErrors = {};
+    if (!username) newErrors.username = "Username is required!";
+    if (!email) newErrors.email = "Email is required!";
+    if (!password) newErrors.password = "Password is required!";
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
       return;
     }
-    setError("");
+
     try {
       const response = await fetch("https://jsonplaceholder.typicode.com/users", {
         method: "POST",
@@ -25,15 +31,16 @@ export default function RegistrationForm() {
       setUsername("");
       setEmail("");
       setPassword("");
+      setErrors({});
     } catch (err) {
-      setError(err.message);
+      setErrors({ general: err.message });
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 bg-gray-100 rounded-xl shadow">
       <h2 className="text-xl font-bold mb-4">Register (Controlled Form)</h2>
-      {error && <p className="text-red-500">{error}</p>}
+      {errors.general && <p className="text-red-500">{errors.general}</p>}
       <input
         type="text"
         name="username"
@@ -42,6 +49,7 @@ export default function RegistrationForm() {
         onChange={(e) => setUsername(e.target.value)}
         className="w-full p-2 border rounded mb-2"
       />
+      {errors.username && <p className="text-red-500">{errors.username}</p>}
       <input
         type="email"
         name="email"
@@ -50,6 +58,7 @@ export default function RegistrationForm() {
         onChange={(e) => setEmail(e.target.value)}
         className="w-full p-2 border rounded mb-2"
       />
+      {errors.email && <p className="text-red-500">{errors.email}</p>}
       <input
         type="password"
         name="password"
@@ -58,6 +67,7 @@ export default function RegistrationForm() {
         onChange={(e) => setPassword(e.target.value)}
         className="w-full p-2 border rounded mb-2"
       />
+      {errors.password && <p className="text-red-500">{errors.password}</p>}
       <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded">
         Register
       </button>
